@@ -1,5 +1,5 @@
 #include <iostream>
-#include "vector3d.h"
+#include "../include/raytracer/vector3d.h"
 
 int main() {
     std::cout << "Hello, World!" << std::endl;

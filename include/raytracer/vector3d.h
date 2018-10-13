@@ -18,17 +18,17 @@ struct Vector3d {
     Vector3d() {}
     Vector3d(T x, T y, T z) : x{x}, y{y}, z{z} {}
 
-    inline const auto operator+() const {return *this;}
-    inline auto operator-() const {return Vec(-x, -y, -z);}
+    inline const Vec& operator+() const {return *this;}
+    inline Vec operator-() const {return Vec(-x, -y, -z);}
 
 
-    auto operator+=(const Vec& v2);
-    auto operator-=(const Vec& v2);
-    auto operator*=(const Vec& v2);
-    auto operator/=(const Vec& v2);
+    auto& operator+=(const Vec& v2);
+    auto& operator-=(const Vec& v2);
+    auto& operator*=(const Vec& v2);
+    auto& operator/=(const Vec& v2);
 
-    auto operator*=(const T scalar);
-    auto operator/=(const T scalar); //precondition: scalar != 0
+    auto& operator*=(const T scalar);
+    auto& operator/=(const T scalar); //precondition: scalar != 0
 
     T len() const;
     T len_squared() const;
@@ -38,58 +38,72 @@ struct Vector3d {
 
 
 template <typename T>
-inline auto Vector3d<T>::operator+=(const Vector3d<T>& v2) {
+inline auto& Vector3d<T>::operator+=(const Vector3d<T>& v2) {
     x += v2.x;
     y += v2.y;
     z += v2.z;
+    return *this;
 }
 
+
 template <typename T>
-inline auto Vector3d<T>::operator-=(const Vector3d<T>& v2) {
+inline auto& Vector3d<T>::operator-=(const Vector3d<T>& v2) {
     x -= v2.x;
     y -= v2.y;
     z -= v2.z;
+    return *this;
 }
 
+
 template <typename T>
-inline auto Vector3d<T>::operator*=(const Vector3d<T>& v2) {
+inline auto& Vector3d<T>::operator*=(const Vector3d<T>& v2) {
     x *= v2.x;
     y *= v2.y;
     z *= v2.z;
+    return *this;
 }
 
+
 template <typename T>
-inline auto Vector3d<T>::operator/=(const Vector3d<T>& v2) {
+inline auto& Vector3d<T>::operator/=(const Vector3d<T>& v2) {
     // precondition: components of v2 != 0
     x /= v2.x;
     y /= v2.y;
     z /= v2.z;
+    return *this;
 }
 
+
 template <typename T>
-inline auto Vector3d<T>::operator*=(const T scalar) {
+inline auto& Vector3d<T>::operator*=(const T scalar) {
     x *= scalar;
     y *= scalar;
     z *= scalar;
+    return *this;
 }
 
+
 template <typename T>
-inline auto Vector3d<T>::operator/=(const T scalar) {
+inline auto& Vector3d<T>::operator/=(const T scalar) {
     //precondition: scalar != 0
     x /= scalar;
     y /= scalar;
     z /= scalar;
+    return *this;
 }
+
 
 template <typename T>
 inline T Vector3d<T>::len()const {
     return sqrt(len_squared());
 }
 
+
 template <typename T>
 inline T Vector3d<T>::len_squared() const {
     return x*x + y*y + z*z;
 }
+
 
 template <typename T>
 inline void Vector3d<T>::normalize() {
@@ -100,20 +114,24 @@ inline void Vector3d<T>::normalize() {
     z /= length;
 }
 
+
 template <typename T>
 inline Vector3d<T> operator+(const Vector3d<T>& v1, const Vector3d<T>& v2) {
     return {v1.x + v2.x, v1.y + v2.y, v1.z + v2.z};
 }
+
 
 template <typename T>
 inline Vector3d<T> operator-(const Vector3d<T>& v1, const Vector3d<T>& v2) {
     return {v1.x - v2.x, v1.y - v2.y, v1.z - v2.z};
 }
 
+
 template <typename T>
 inline Vector3d<T> operator*(const Vector3d<T>& v1, const Vector3d<T>& v2) {
     return {v1.x * v2.x, v1.y * v2.y, v1.z * v2.z};
 }
+
 
 template <typename T>
 inline Vector3d<T> operator/(const Vector3d<T>& v1, const Vector3d<T>& v2) {
@@ -121,10 +139,12 @@ inline Vector3d<T> operator/(const Vector3d<T>& v1, const Vector3d<T>& v2) {
     return {v1.x / v2.x, v1.y / v2.y, v1.z / v2.z};
 }
 
+
 template <typename T>
 inline T dot(const Vector3d<T>& v1, const Vector3d<T>& v2) {
     return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }
+
 
 template <typename T>
 inline Vector3d<T> cross(const Vector3d<T>& v1, const Vector3d<T> v2) {
@@ -133,6 +153,7 @@ inline Vector3d<T> cross(const Vector3d<T>& v1, const Vector3d<T> v2) {
             v1.x * v2.y - v1.y * v2.x};
 }
 
+
 template <typename T>
 inline Vector3d<T> unit_vector(const Vector3d<T>& v) {
     auto v2 = v;
@@ -140,10 +161,12 @@ inline Vector3d<T> unit_vector(const Vector3d<T>& v) {
     return v2;
 }
 
+
 template <typename T>
 bool operator==(const Vector3d<T>& v1, const Vector3d<T>& v2){
     return v1.x == v2.x && v1.y == v2.y && v1.z == v2.z;
 }
+
 
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const Vector3d<T> v) {
