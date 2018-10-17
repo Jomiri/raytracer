@@ -7,7 +7,6 @@
 
 #include <iostream>
 
-
 template <typename T>
 struct Vector3d {
     using Vec = Vector3d<T>;
@@ -139,6 +138,22 @@ inline Vector3d<T> operator/(const Vector3d<T>& v1, const Vector3d<T>& v2) {
     return {v1.x / v2.x, v1.y / v2.y, v1.z / v2.z};
 }
 
+template <typename T>
+inline Vector3d<T> operator*(const Vector3d<T>& v, const T scalar) {
+    return {v.x * scalar, v.y * scalar, v.z * scalar};
+}
+
+template <typename T>
+inline Vector3d<T> operator/(const Vector3d<T>& v, const T scalar) {
+    //precondition: scalar != 0
+    return {v.x / scalar, v.y / scalar, v.z / scalar};
+}
+
+template <typename T>
+inline Vector3d<T> operator*(const T scalar, const Vector3d<T>& v) {
+    return v * scalar;
+}
+
 
 template <typename T>
 inline T dot(const Vector3d<T>& v1, const Vector3d<T>& v2) {
@@ -173,7 +188,5 @@ std::ostream& operator<<(std::ostream& os, const Vector3d<T> v) {
     os << v.x << " " << v.y << " " << v.z;
     return os;
 }
-
-using vec3 = Vector3d<double>;
 
 #endif //RAYTRACER_VECTOR3D_H

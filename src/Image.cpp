@@ -2,9 +2,9 @@
 // Created by Joona on 13/10/2018.
 //
 
+#include "raytracer/common.h"
 #include <fstream>
 #include "raytracer/Image.h"
-#include "raytracer/vector3d.h"
 
 
 Image::Image(int width, int height) {
@@ -12,7 +12,6 @@ Image::Image(int width, int height) {
     this->height = height;
     pixels = std::vector<vec3>(width * height);
 }
-
 
 void Image::set_pixel_at(int x, int y, vec3 pixel) {
     pixels.at(x + y*width) = pixel;

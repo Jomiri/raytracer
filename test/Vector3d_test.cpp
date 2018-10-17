@@ -46,24 +46,28 @@ TEST_CASE( "Vector multiplication" "[operators]") {
     vec3 v1 {1, 2, 3};
     vec3 v2 {1, 0.5, 2};
     vec3 v3 = v1 * v2;
+    vec3 v4 = v2 * 2.0;
     v1 *= v2;
-    v2 *= 2;
+    v2 *= 2.0;
 
     REQUIRE( v1 == vec3{1, 1, 6} );
     REQUIRE( v3 == vec3{1, 1, 6} );
     REQUIRE( v2 == vec3{2, 1, 4} );
+    REQUIRE( v4 == vec3{2, 1, 4} );
 }
 
 TEST_CASE( "Vector division" "[operators]") {
     vec3 v1 {1, 2, 3};
     vec3 v2 {1, 0.5, 2};
     vec3 v3 = v1 / v2;
+    vec3 v4 = v2 / 2.0;
     v1 /= v2;
     v2 /= 2;
 
     REQUIRE( v1 == vec3{1, 4, 1.5} );
     REQUIRE( v3 == vec3{1, 4, 1.5} );
     REQUIRE( v2 == vec3{0.5, 0.25, 1} );
+    REQUIRE( v4 == vec3{0.5, 0.25, 1} );
 }
 
 TEST_CASE( "Vector length squared", "[length squared]") {

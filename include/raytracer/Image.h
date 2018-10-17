@@ -5,8 +5,7 @@
 #ifndef RAYTRACER_IMAGE_H
 #define RAYTRACER_IMAGE_H
 
-#include "vector3d.h"
-#include <vector>
+#include "common.h"
 
 
 class Image {
@@ -14,7 +13,7 @@ public:
     Image () = default;
     Image (int width, int height);
 
-    void set_pixel_at(int x, int y, const vec3 pixel);
+    void set_pixel_at(int x, int y, vec3 pixel);
     void to_ppm(const std::string& file_name) const;
 
 
