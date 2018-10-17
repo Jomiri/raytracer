@@ -20,7 +20,7 @@ public:
         else
             fuzz = 1;
     }
-    bool scatter(const Ray& r_in, const HitRecord& rec, vec3& attenuation, Ray& scattered) override {
+    bool scatter(const Ray& r_in, const HitRecord& rec, vec3& attenuation, Ray& scattered) const override {
         vec3 reflected = reflect(unit_vector(r_in.direction()), rec.normal);
         scattered = Ray(rec.p, reflected + fuzz*rng.random_in_unit_sphere());
         attenuation = albedo;

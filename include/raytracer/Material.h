@@ -12,7 +12,7 @@
 
 class Material {
 public:
-    virtual bool scatter(const Ray& r_in, const HitRecord& rec, vec3& attenuation, Ray& scattered) = 0;
+    virtual bool scatter(const Ray& r_in, const HitRecord& rec, vec3& attenuation, Ray& scattered) const = 0;
     virtual ~Material() = default;
 };
 #endif //RAYTRACER_MATERIAL_H
