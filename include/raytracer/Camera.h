@@ -10,15 +10,17 @@
 
 class Camera {
 public:
+    Camera(vec3 lookfrom, vec3 lookat, vec3 vup, Float vfov,
+            Float aspect, Float aperture, Float focus_dist);
 
-    Ray get_ray(Float u, Float v) {
-        return {origin, upper_left_corner + u * horizontal + v * vertical - origin};
-    }
+    Ray get_ray(Float u, Float v);
 
-    vec3 upper_left_corner {-2.0, 1.0, -1.0};
-    vec3 horizontal {4.0, 0, 0};
-    vec3 vertical {0, 2.0, 0};
+    vec3 upper_left_corner {0, 0, 0};
+    vec3 horizontal  {0, 0, 0};
+    vec3 vertical {0, 0, 0};
     vec3 origin {0, 0, 0};
+    vec3 u, v, w;
+    Float lens_radius = 0;
 
 };
 

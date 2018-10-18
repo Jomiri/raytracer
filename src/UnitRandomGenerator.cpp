@@ -15,4 +15,12 @@ vec3 UnitRandomGenerator::random_in_unit_sphere() {
     return p;
 }
 
+vec3 UnitRandomGenerator::random_in_unit_disk() {
+    vec3 p;
+    do {
+        p = 2.0 * vec3(get_number(), get_number(), 0) - vec3(1, 1, 0);
+    } while (dot(p,p) >= 1.0);
+    return p;
+}
+
 UnitRandomGenerator rng;
