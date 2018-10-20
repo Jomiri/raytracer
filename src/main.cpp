@@ -14,6 +14,8 @@
 #include "raytracer/Lambertian.h"
 #include "raytracer/Metal.h"
 #include "raytracer/Dielectric.h"
+#include "raytracer/Scene.h"
+
 
 
 vec3 color(const Ray& r, const Hitable* const world, int depth) {
@@ -35,46 +37,32 @@ vec3 color(const Ray& r, const Hitable* const world, int depth) {
     }
 }
 
-class Scene {
-    using Mat = std::unique_ptr<Material>;
-    using Obj = std::unique_ptr<Hitable>;
-public:
-    Hitable* example_world() {
-        Mat s1_material = std::make_unique<Lambertian>(vec3(0.1, 0.2, 0.5));
-        Mat s2_material = std::make_unique<Lambertian>(vec3(0.8, 0.8, 0.0));
-        Mat s3_material = std::make_unique<Metal>(vec3(0.8, 0.6, 0.2), 0.3);
-        Mat s4_material = std::make_unique<Dielectric>(1.5);
 
-        Obj s1 = std::make_unique<Sphere>(vec3{0, 0, -1}, 0.5, s1_material.get());
-        Obj s2 = std::make_unique<Sphere>(vec3{0, -100.5, -1}, 100, s2_material.get());
-        Obj s3 = std::make_unique<Sphere>(vec3{1, 0, -1}, 0.5, s3_material.get());
-        Obj s4 = std::make_unique<Sphere>(vec3{-1, 0, -1}, 0.5, s4_material.get());
-        Obj s5 = std::make_unique<Sphere>(vec3{-1, 0, -1}, 0.45, s4_material.get());
 
-        list.add(s1.get());
-        list.add(s2.get());
-        list.add(s3.get());
-        list.add(s4.get());
-        list.add(s5.get());
 
-        materials.push_back(std::move(s1_material));
-        materials.push_back(std::move(s2_material));
-        materials.push_back(std::move(s3_material));
-        materials.push_back(std::move(s4_material));
+Hitable* random_scene(Scene& scene) {
+    int n = 500;
+    auto s1_mat = scene.add_material<Lambertian>(vec3(0.5, 0.5, 0.5));
+    auto s1 = scene.add_hitable<Sphere>(vec3(0, -1000, 0), 1000, s1_mat);
 
-        objects.push_back(std::move(s1));
-        objects.push_back(std::move(s2));
-        objects.push_back(std::move(s3));
-        objects.push_back(std::move(s4));
-        objects.push_back(std::move(s5));
+    return scene.make_hitable_list();
+}
 
-        return &list;
-    }
-    std::vector<std::unique_ptr<Material>> materials;
-    std::vector<std::unique_ptr<Hitable>> objects;
-    HitableList list;
-};
+Hitable* example_world(Scene& sc) {
 
+    auto s1_mat = sc.add_material<Lambertian>(vec3(0.1, 0.2, 0.5));
+    auto s2_mat = sc.add_material<Lambertian>(vec3(0.8, 0.8, 0.0));
+    auto s3_mat = sc.add_material<Metal>(vec3(0.8, 0.6, 0.2), 0.3);
+    auto s45_mat = sc.add_material<Dielectric>(1.5);
+
+    sc.add_hitable<Sphere>(vec3(0, 0, -1), 0.5, s1_mat);
+    sc.add_hitable<Sphere>(vec3(0, -100.5, -1), 100, s2_mat);
+    sc.add_hitable<Sphere>(vec3(1, 0, -1), 0.5, s3_mat);
+    sc.add_hitable<Sphere>(vec3(-1, 0, -1), 0.5, s45_mat);
+    sc.add_hitable<Sphere>(vec3(-1, 0, -1), 0.5, s45_mat);
+
+    return sc.make_hitable_list();
+}
 
 int main() {
     constexpr int factor = 2;
@@ -83,11 +71,11 @@ int main() {
     constexpr int num_samples = 200;
     Image im = {width, height};
     Scene scene;
-    auto world = scene.example_world();
-    vec3 lookfrom(3,3,2);
-    vec3 lookat(0,0,-1);
-    Float focal_length = (lookfrom - lookat).len();
-    Float aperture = 2.0;
+    auto world = example_world(scene);
+    vec3 lookfrom(13,2,3);
+    vec3 lookat(0,0,0);
+    Float focal_length = 10.0;
+    Float aperture = 0.1;
     Camera cam(lookfrom, lookat, vec3(0,1,0), 20, Float(width)/Float(height), aperture, focal_length);
     for (int j = 0; j < height; j++) {
         for (int i = 0; i < width; i++) {

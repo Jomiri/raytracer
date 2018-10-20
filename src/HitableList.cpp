@@ -23,3 +23,7 @@ void HitableList::add(Hitable* h) {
     list.push_back(h);
 }
 
+void HitableList::reset() {
+    list.clear();
+}
+

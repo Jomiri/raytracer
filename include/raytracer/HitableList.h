@@ -13,6 +13,7 @@ public:
     HitableList() = default;
     bool hit(const Ray& r, const Interval& t_limits, HitRecord& rec) const override;
     void add(Hitable* h);
+    void reset();
 
 private:
     std::vector<Hitable*> list;
