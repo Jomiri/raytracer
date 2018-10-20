@@ -50,17 +50,17 @@ Hitable* random_scene(Scene& scene) {
 
     for (int a = -11; a < 11; a++) {
         for (int b = -11; b < 11; b++) {
-            Float choose_mat = rng.get_number();
-            vec3 center(a+0.9*rng.get_number(), 0.2, b+0.9*rng.get_number());
+            Float choose_mat = rng.get();
+            vec3 center(a+0.9* rng.get(), 0.2, b+0.9* rng.get());
             if ((center-vec3(4,0.2, 0)).len() > 0.9) {
                 if (choose_mat < 0.8) {
-                    auto diffuse = scene.add_material<Lambertian>(vec3(rng.get_number()*rng.get_number(),
-                            rng.get_number()*rng.get_number(), rng.get_number()*rng.get_number()));
+                    auto diffuse = scene.add_material<Lambertian>(vec3(rng.get()* rng.get(),
+                                                                       rng.get()* rng.get(), rng.get()* rng.get()));
                     scene.add_hitable<Sphere>(center, 0.2, diffuse);
                 }
                 else if(choose_mat < 0.95) {
-                    auto metal = scene.add_material<Metal>(vec3(0.5*(1 + rng.get_number()),
-                            0.5*(1 + rng.get_number()), 0.5*(1 + rng.get_number())), 0.5*rng.get_number());
+                    auto metal = scene.add_material<Metal>(vec3(0.5*(1 + rng.get()),
+                            0.5*(1 + rng.get()), 0.5*(1 + rng.get())), 0.5* rng.get());
                     scene.add_hitable<Sphere>(center, 0.2, metal);
                 }
                 else {
@@ -106,8 +106,8 @@ int main() {
         for (int i = 0; i < width; i++) {
             vec3 col = {0, 0, 0};
             for (int s=0; s < num_samples; s++) {
-                Float u_random_bias = rng.get_number();
-                Float v_random_bias = rng.get_number();
+                Float u_random_bias = rng.get();
+                Float v_random_bias = rng.get();
                 const Float u = (i + u_random_bias) / Float(width);
                 const Float v = (j + v_random_bias) / Float(height);
                 Ray r = cam.get_ray(u, -v);

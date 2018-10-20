@@ -10,7 +10,7 @@
 vec3 UnitRandomGenerator::random_in_unit_sphere() {
     vec3 p;
     do {
-        p = 2.0 * vec3(get_number(), get_number(), get_number()) - vec3(1, 1, 1);
+        p = 2.0 * vec3(get(), get(), get()) - vec3(1, 1, 1);
     } while (p.len_squared() >= 1.0);
     return p;
 }
@@ -18,7 +18,7 @@ vec3 UnitRandomGenerator::random_in_unit_sphere() {
 vec3 UnitRandomGenerator::random_in_unit_disk() {
     vec3 p;
     do {
-        p = 2.0 * vec3(get_number(), get_number(), 0) - vec3(1, 1, 0);
+        p = 2.0 * vec3(get(), get(), 0) - vec3(1, 1, 0);
     } while (dot(p,p) >= 1.0);
     return p;
 }

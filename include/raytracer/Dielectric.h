@@ -12,9 +12,11 @@
 class Dielectric : public Material {
 public:
     explicit Dielectric(Float ri) : ref_idx(ri) {}
-    bool scatter(const Ray& r_in, const HitRecord& rec, vec3& attenuation, Ray& scattered) const override;
+    bool scatter(const Ray& r_in, const HitRecord& rec, vec3& atten, Ray& scattered) const override;
 
-    Float ref_idx = 0;
+private:
+    Float ref_idx = 1;
+    const vec3 attenuation {1.0, 1.0, 1.0};
 };
 
 

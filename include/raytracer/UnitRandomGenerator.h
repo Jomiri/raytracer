@@ -10,7 +10,7 @@
 
 class UnitRandomGenerator {
 public:
-    double get_number() { return distribution(generator); }
+    double get() { return distribution(generator); }
     vec3 random_in_unit_sphere();
     vec3 random_in_unit_disk();
 
