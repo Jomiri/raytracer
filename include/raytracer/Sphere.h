@@ -14,11 +14,12 @@ public:
     Sphere(vec3 c, Float r, Material* mat_ptr): center{c}, radius(r), material(mat_ptr) {};
     bool hit(const Ray& r, const  Interval& t_limits, HitRecord& rec) const override;
 
-    vec3 center = {0, 0, 0};
-    Float radius = 0;
-    Material* material = nullptr;
 
 private:
     void fill_hit_record(const Ray& r, Float t, HitRecord& rec) const;
+
+    vec3 center {0, 0, 0};
+    Float radius {0};
+    Material* material {nullptr};
 };
 #endif //RAYTRACER_SPHERE_H

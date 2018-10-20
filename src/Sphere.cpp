@@ -14,14 +14,14 @@ bool Sphere::hit(const Ray& r, const Interval& t_limits, HitRecord& rec) const {
         return false;
     }
 
-    Float solution = (-b - sqrt(b * b - a * c)) / a;
-    if (t_limits.within_limits(solution)) {
-        fill_hit_record(r, solution, rec);
+    Float t1 = (-b - sqrt(discriminant)) / a;
+    if (t_limits.contains(t1)) {
+        fill_hit_record(r, t1, rec);
         return true;
     }
-    Float solution2 = (-b + sqrt(b * b - a * c)) / a;
-    if (t_limits.within_limits(solution2)) {
-        fill_hit_record(r, solution2, rec);
+    Float t2 = (-b + sqrt(discriminant)) / a;
+    if (t_limits.contains(t2)) {
+        fill_hit_record(r, t2, rec);
         return true;
     }
     return false;
@@ -29,8 +29,8 @@ bool Sphere::hit(const Ray& r, const Interval& t_limits, HitRecord& rec) const {
 
 void Sphere::fill_hit_record(const Ray &r, const Float t, HitRecord &rec) const {
     rec.t = t;
-    rec.p = r.point_at_parameter(t);
-    rec.normal = (rec.p - center) / radius;
+    rec.point = r.point_at_parameter(t);
+    rec.normal = (rec.point - center) / radius;
     rec.mat_ptr = material;
 }
 

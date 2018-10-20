@@ -12,8 +12,8 @@
 class Material;
 
 struct HitRecord {
-    Float t = 0;
-    vec3 p;
+    Float t {0};
+    vec3 point;
     vec3 normal;
     Material* mat_ptr = nullptr;
     HitRecord() = default;
@@ -22,7 +22,7 @@ struct HitRecord {
 struct Interval {
     Float min;
     Float max;
-    bool within_limits(const Float x) const {
+    bool contains(const Float x) const {
         return x > min && x < max;
     }
 };
