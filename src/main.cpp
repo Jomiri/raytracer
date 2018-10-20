@@ -1,6 +1,3 @@
-#include <iostream>
-#include <random>
-#include <memory>
 
 #include "raytracer/common.h"
 #include "raytracer/Image.h"
@@ -41,9 +38,37 @@ vec3 color(const Ray& r, const Hitable* const world, int depth) {
 
 
 Hitable* random_scene(Scene& scene) {
-    int n = 500;
     auto s1_mat = scene.add_material<Lambertian>(vec3(0.5, 0.5, 0.5));
-    auto s1 = scene.add_hitable<Sphere>(vec3(0, -1000, 0), 1000, s1_mat);
+    auto glass = scene.add_material<Dielectric>(1.5);
+    auto s3_mat = scene.add_material<Lambertian>(vec3(0.4, 0.2, 0.1));
+    auto s4_mat = scene.add_material<Metal>(vec3(0.7, 0.6, 0.5), 0.0);
+
+    scene.add_hitable<Sphere>(vec3(0, -1000, 0), 1000, s1_mat);
+    scene.add_hitable<Sphere>(vec3(0, 1, 0), 1.0, glass);
+    scene.add_hitable<Sphere>(vec3(-4, 1, 0), 1.0, s3_mat);
+    scene.add_hitable<Sphere>(vec3(4, 1, 0), 1.0, s4_mat);
+
+    for (int a = -11; a < 11; a++) {
+        for (int b = -11; b < 11; b++) {
+            Float choose_mat = rng.get_number();
+            vec3 center(a+0.9*rng.get_number(), 0.2, b+0.9*rng.get_number());
+            if ((center-vec3(4,0.2, 0)).len() > 0.9) {
+                if (choose_mat < 0.8) {
+                    auto diffuse = scene.add_material<Lambertian>(vec3(rng.get_number()*rng.get_number(),
+                            rng.get_number()*rng.get_number(), rng.get_number()*rng.get_number()));
+                    scene.add_hitable<Sphere>(center, 0.2, diffuse);
+                }
+                else if(choose_mat < 0.95) {
+                    auto metal = scene.add_material<Metal>(vec3(0.5*(1 + rng.get_number()),
+                            0.5*(1 + rng.get_number()), 0.5*(1 + rng.get_number())), 0.5*rng.get_number());
+                    scene.add_hitable<Sphere>(center, 0.2, metal);
+                }
+                else {
+                   scene.add_hitable<Sphere>(center, 0.2, glass);
+                }
+            }
+        }
+    }
 
     return scene.make_hitable_list();
 }
@@ -65,13 +90,13 @@ Hitable* example_world(Scene& sc) {
 }
 
 int main() {
-    constexpr int factor = 2;
-    constexpr int width = factor * 200;
-    constexpr int height = factor * 100;
-    constexpr int num_samples = 200;
-    Image im = {width, height};
+    constexpr int factor = 1;
+    constexpr int width = factor * 100;
+    constexpr int height = factor * 50;
+    constexpr int num_samples = 100;
+    Image im {width, height};
     Scene scene;
-    auto world = example_world(scene);
+    auto world = random_scene(scene);
     vec3 lookfrom(13,2,3);
     vec3 lookat(0,0,0);
     Float focal_length = 10.0;
