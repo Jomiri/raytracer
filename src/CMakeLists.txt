@@ -1,5 +1,5 @@
 add_executable(raytracer main.cpp Image.cpp Sphere.cpp HitableList.cpp
-        UnitRandomGenerator.cpp
+        Random.cpp
         Helpers.cpp
         Dielectric.cpp
         Camera.cpp

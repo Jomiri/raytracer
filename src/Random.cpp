@@ -3,12 +3,13 @@
 //
 
 #include "raytracer/common.h"
-#include "raytracer/UnitRandomGenerator.h"
+#include "raytracer/Random.h"
 
 
 namespace rng {
     Float get() {
-        static thread_local std::default_random_engine generator;
+        static std::random_device rd;
+        static thread_local std::default_random_engine generator(rd());
         static std::uniform_real_distribution<Float> distribution(0.0, 1.0);
         return distribution(generator);
     }

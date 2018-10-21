@@ -10,7 +10,7 @@
 #include "Hitable.h"
 #include "Ray.h"
 #include "Helpers.h"
-#include "UnitRandomGenerator.h"
+#include "Random.h"
 
 class Metal : public Material {
 public:

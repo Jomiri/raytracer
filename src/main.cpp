@@ -6,7 +6,7 @@
 #include "raytracer/Hitable.h"
 #include "raytracer/HitableList.h"
 #include "raytracer/Camera.h"
-#include "raytracer/UnitRandomGenerator.h"
+#include "raytracer/Random.h"
 #include "raytracer/Material.h"
 #include "raytracer/Lambertian.h"
 #include "raytracer/Metal.h"

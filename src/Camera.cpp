@@ -5,7 +5,7 @@
 
 #include "raytracer/common.h"
 #include "raytracer/Camera.h"
-#include "raytracer/UnitRandomGenerator.h"
+#include "raytracer/Random.h"
 
 
 Camera::Camera(vec3 lookfrom, vec3 lookat, vec3 vup,

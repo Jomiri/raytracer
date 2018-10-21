@@ -8,7 +8,7 @@
 #include "common.h"
 #include "Ray.h"
 #include "Hitable.h"
-#include "UnitRandomGenerator.h"
+#include "Random.h"
 
 class Material {
 public:
