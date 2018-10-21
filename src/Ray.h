@@ -5,7 +5,7 @@
 #ifndef RAYTRACER_RAY_H
 #define RAYTRACER_RAY_H
 
-#include "common.h"
+#include "Common.h"
 
 struct Ray {
     Ray () = default;

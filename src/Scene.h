@@ -5,7 +5,7 @@
 #ifndef RAYTRACER_SCENE_H
 #define RAYTRACER_SCENE_H
 
-#include "common.h"
+#include "Common.h"
 #include "Material.h"
 #include "Hitable.h"
 #include "HitableList.h"
@@ -25,13 +25,7 @@ public:
         return hitables.back().get();
     }
 
-    Hitable* make_hitable_list() {
-        list.reset();
-        for (const auto& h : hitables) {
-            list.add(h.get());
-        }
-        return &list;
-    }
+    const Hitable *const make_hitable_list();
 
     HitableList list;
 

@@ -5,7 +5,7 @@
 #ifndef RAYTRACER_DIELECTRIC_H
 #define RAYTRACER_DIELECTRIC_H
 
-#include "common.h"
+#include "Common.h"
 #include "Material.h"
 #include "Ray.h"
 

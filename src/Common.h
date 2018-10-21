@@ -10,12 +10,13 @@
 #include <string>
 #include <limits>
 #include <memory>
-#include "vector3d.h"
+#include "Vector3d.h"
 
 
 using Float = double;
 using vec3 = Vector3d<Float>;
 
 constexpr Float pi = 3.14159265359;
+constexpr int progress_print_interval {100};
 
 #endif //RAYTRACER_COMMON_H

@@ -3,18 +3,17 @@
 //
 
 
-#include "raytracer/common.h"
-#include "raytracer/Camera.h"
-#include "raytracer/Random.h"
+#include "Common.h"
+#include "Camera.h"
+#include "Random.h"
 
 
-Camera::Camera(vec3 lookfrom, vec3 lookat, vec3 vup,
+Camera::Camera(const vec3 lookfrom, const vec3 lookat, const vec3 vup,
         Float vfov, Float aspect, Float aperture, Float focal_length) {
-
     lens_radius = aperture / 2;
-    Float theta = vfov * pi/180;
-    Float half_height = tan(theta/2);
-    Float half_width = aspect * half_height;
+    const Float theta = vfov * pi/180;
+    const Float half_height = tan(theta/2);
+    const Float half_width = aspect * half_height;
     origin = lookfrom;
     w = unit_vector(lookfrom - lookat);
     u = unit_vector(cross(vup, w));

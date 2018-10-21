@@ -5,7 +5,7 @@
 #ifndef RAYTRACER_HITABLE_LIST_H
 #define RAYTRACER_HITABLE_LIST_H
 
-#include "common.h"
+#include "Common.h"
 #include "Hitable.h"
 
 class HitableList: public Hitable {

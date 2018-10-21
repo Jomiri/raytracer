@@ -1,9 +1,9 @@
 //
 // Created by Joona on 20/10/2018.
 //
-#include "raytracer/common.h"
-#include "raytracer/Metal.h"
-#include "raytracer/Helpers.h"
+#include "Common.h"
+#include "Metal.h"
+#include "Helpers.h"
 
 Metal::Metal(const vec3& a, Float f) : albedo(a), fuzz(f < 1 ? f : 1) { }
 

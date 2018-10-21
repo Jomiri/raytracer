@@ -5,7 +5,7 @@
 #ifndef RAYTRACER_SPHERE_H
 #define RAYTRACER_SPHERE_H
 
-#include "common.h"
+#include "Common.h"
 #include "Hitable.h"
 
 class Sphere: public Hitable {

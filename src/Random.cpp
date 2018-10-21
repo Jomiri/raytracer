@@ -2,8 +2,8 @@
 // Created by Joona on 16/10/2018.
 //
 
-#include "raytracer/common.h"
-#include "raytracer/Random.h"
+#include "Common.h"
+#include "Random.h"
 
 
 namespace rng {
@@ -13,7 +13,6 @@ namespace rng {
         static std::uniform_real_distribution<Float> distribution(0.0, 1.0);
         return distribution(generator);
     }
-
 
     vec3 random_in_unit_sphere() {
         vec3 p;

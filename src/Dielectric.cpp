@@ -2,9 +2,9 @@
 // Created by Joona on 17/10/2018.
 //
 
-#include "raytracer/Dielectric.h"
-#include "raytracer/common.h"
-#include "raytracer/Helpers.h"
+#include "Dielectric.h"
+#include "Common.h"
+#include "Helpers.h"
 
 
 bool Dielectric::scatter(const Ray& r_in, const HitRecord& rec, vec3& atten, Ray& scattered) const {

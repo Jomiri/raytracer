@@ -5,7 +5,7 @@
 #ifndef RAYTRACER_IMAGE_H
 #define RAYTRACER_IMAGE_H
 
-#include "common.h"
+#include "Common.h"
 
 
 class Image {
@@ -27,6 +27,8 @@ private:
     int width = 1;
     std::vector<vec3> pixels;
 };
+
+void average_images(const std::vector<Image> &images, Image &out);
 
 
 #endif //RAYTRACER_IMAGE_H

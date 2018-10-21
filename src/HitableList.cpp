@@ -2,8 +2,8 @@
 // Created by Joona on 14/10/2018.
 //
 
-#include "raytracer/common.h"
-#include "raytracer/HitableList.h"
+#include "Common.h"
+#include "HitableList.h"
 
 bool HitableList::hit(const Ray& r, const Interval& t_limits, HitRecord& rec) const {
     HitRecord temp_rec {rec};

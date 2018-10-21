@@ -7,4 +7,7 @@ add_executable(test
         ${TEST_SOURCE})
 
 target_include_directories(test
-        PUBLIC ${PROJECT_SOURCE_DIR}/include)
+        PUBLIC
+        ${PROJECT_SOURCE_DIR}/deps
+        ${PROJECT_SOURCE_DIR}/src
+        )

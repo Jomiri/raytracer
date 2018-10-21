@@ -5,7 +5,7 @@
 #ifndef RAYTRACER_RANDOMGENERATOR_H
 #define RAYTRACER_RANDOMGENERATOR_H
 
-#include "common.h"
+#include "Common.h"
 #include <random>
 
 namespace rng {

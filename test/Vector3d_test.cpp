@@ -2,12 +2,12 @@
 // Created by Joona on 11/10/2018.
 //
 
-#include "../include/catch/catch.hpp"
-#include "../include/raytracer/vector3d.h"
+#include "catch/catch.hpp"
+#include "Common.h"
 
 TEST_CASE( "Vector default initialization", "[default_init]" ) {
     vec3 v;
-    REQUIRE(v == vec3{1, 0, 0});
+    REQUIRE(v == vec3{0, 0, 0});
 }
 
 TEST_CASE( "Vector general initialization", "[general_init]") {

@@ -5,7 +5,7 @@
 #ifndef RAYTRACER_HITABLE_H
 #define RAYTRACER_HITABLE_H
 
-#include "common.h"
+#include "Common.h"
 #include "Ray.h"
 #include "Random.h"
 

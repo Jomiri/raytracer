@@ -10,9 +10,9 @@
 template <typename T>
 struct Vector3d {
     using Vec = Vector3d<T>;
-    T x = 1;
-    T y = 0;
-    T z = 0;
+    T x {0};
+    T y {0};
+    T z {0};
 
     Vector3d() {}
     Vector3d(T x, T y, T z) : x{x}, y{y}, z{z} {}
@@ -26,8 +26,8 @@ struct Vector3d {
     auto& operator*=(const Vec& v2);
     auto& operator/=(const Vec& v2);
 
-    auto& operator*=(const T scalar);
-    auto& operator/=(const T scalar); //precondition: scalar != 0
+    auto& operator*=(T scalar);
+    auto& operator/=(T scalar); //precondition: scalar != 0
 
     T len() const;
     T len_squared() const;

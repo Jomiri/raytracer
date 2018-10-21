@@ -5,7 +5,7 @@
 #ifndef RAYTRACER_MATERIAL_H
 #define RAYTRACER_MATERIAL_H
 
-#include "common.h"
+#include "Common.h"
 #include "Ray.h"
 #include "Hitable.h"
 #include "Random.h"

@@ -2,8 +2,8 @@
 // Created by Joona on 20/10/2018.
 //
 
-#include "raytracer/common.h"
-#include "raytracer/Lambertian.h"
+#include "Common.h"
+#include "Lambertian.h"
 
 Lambertian::Lambertian(const vec3& a) : albedo(a) {}
 

@@ -5,7 +5,7 @@
 #ifndef RAYTRACER_LAMBERTIAN_H
 #define RAYTRACER_LAMBERTIAN_H
 
-#include "common.h"
+#include "Common.h"
 #include "Material.h"
 #include "Ray.h"
 #include "Hitable.h"
