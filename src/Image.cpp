@@ -2,9 +2,13 @@
 // Created by Joona on 13/10/2018.
 //
 
-#include "raytracer/common.h"
 #include <fstream>
+#include "raytracer/common.h"
 #include "raytracer/Image.h"
+
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#define STBI_MSC_SECURE_CRT
+#include "stb_image/stb_image_write.h"
 
 
 Image::Image(int width, int height) {
@@ -41,6 +45,18 @@ void Image::to_ppm(const std::string &file_name) const {
         int ib = int(255.99 * p.z);
         os << ir << " " << ig << " " << ib << std::endl;
     }
+}
+
+void Image::to_png(const std::string& file_name) const {
+    std::vector<unsigned char> data;
+    data.reserve(4*width*height);
+    for (const auto& p : pixels) {
+        data.push_back(static_cast<unsigned char>(255.99 * p.x));
+        data.push_back(static_cast<unsigned char>(255.99 * p.y));
+        data.push_back(static_cast<unsigned char>(255.99 * p.z));
+        data.push_back(255);
+    }
+    stbi_write_png(file_name.c_str(), width, height, 4, data.data(), 4*width);
 }
 
 void Image::gamma_correct() {

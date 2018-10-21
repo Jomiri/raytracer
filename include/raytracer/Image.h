@@ -17,6 +17,7 @@ public:
     vec3 get_pixel_at(int x, int y) const;
     void gamma_correct();
     void to_ppm(const std::string& file_name) const;
+    void to_png(const std::string& file_name) const;
     int get_width() const;
     int get_height() const;
 

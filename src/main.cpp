@@ -88,6 +88,12 @@ Hitable* example_world(Scene& sc) {
     return sc.make_hitable_list();
 }
 
+Hitable* animation(Scene& sc, double t) {
+    auto s1_mat = sc.add_material<Lambertian>(vec3(0.1, 0.2, 0.5));
+    sc.add_hitable<Sphere>(vec3(0, 0, -1*t), 0.5, s1_mat);
+    return sc.make_hitable_list();
+}
+
 
 void render(const Hitable *const world, const Camera& cam, const int num_samples, Image& im) {
     int width = im.get_width();
@@ -136,10 +142,9 @@ void async_render(const Hitable *const world, const Camera& cam, const int num_s
     int samples_per_thread = num_samples / num_thread;
     for (int i = 0; i < num_thread; i++) {
         ims.emplace_back(out.get_width(), out.get_height());
-        futures.push_back(std::async(std::launch::async, render, world, cam,
+        futures.push_back(std::async(std::launch::async, render, world, std::ref(cam),
                 samples_per_thread, std::ref(ims.at(i))));
     }
-
     try {
 
         for (auto &f : futures) {
@@ -154,7 +159,7 @@ void async_render(const Hitable *const world, const Camera& cam, const int num_s
 }
 
 int main() {
-    constexpr int factor = 10;
+    constexpr int factor = 1;
     constexpr int width = factor * 100;
     constexpr int height = factor * 50;
     constexpr int num_samples = 120;
@@ -168,6 +173,7 @@ int main() {
     Camera cam(lookfrom, lookat, vec3(0,1,0), 20, Float(width)/Float(height), aperture, focal_length);
     async_render(world, cam, num_samples, im);
     im.gamma_correct();
-    im.to_ppm("test.ppm");
+    //im.to_ppm("test.ppm");
+    im.to_png("test.png");
     return 0;
 }
