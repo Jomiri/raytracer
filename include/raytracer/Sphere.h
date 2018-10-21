@@ -12,7 +12,7 @@ class Sphere: public Hitable {
 public:
     Sphere() = default;
     Sphere(vec3 c, Float r, Material* mat_ptr): center{c}, radius(r), material(mat_ptr) {};
-    bool hit(const Ray& r, const  Interval& t_limits, HitRecord& rec) const override;
+    bool hit(const Ray& r, const Interval& t_limits, HitRecord& rec) const override;
 
 
 private:

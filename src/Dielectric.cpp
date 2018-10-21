@@ -22,7 +22,7 @@ bool Dielectric::scatter(const Ray& r_in, const HitRecord& rec, vec3& atten, Ray
     if (refract(r_in.direction(), outward_normal, ni_per_nt, refracted))
         reflect_probability = schlick(cosine, ref_idx);
 
-    if (rng.get() < reflect_probability)
+    if (rng::get() < reflect_probability)
         scattered = {rec.point, reflected(r_in.direction(), rec.normal)};
     else
         scattered = {rec.point, refracted};

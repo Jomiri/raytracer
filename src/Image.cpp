@@ -13,6 +13,14 @@ Image::Image(int width, int height) {
     pixels = std::vector<vec3>(width * height);
 }
 
+int Image::get_height() const {
+    return height;
+}
+
+int Image::get_width() const {
+    return width;
+}
+
 void Image::set_pixel_at(int x, int y, vec3 pixel) {
     pixels.at(x + y*width) = pixel;
 }

@@ -15,6 +15,8 @@ public:
 
     void set_pixel_at(int x, int y, vec3 pixel);
     void to_ppm(const std::string& file_name) const;
+    int get_width() const;
+    int get_height() const;
 
 
 private:

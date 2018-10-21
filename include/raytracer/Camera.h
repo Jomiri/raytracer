@@ -13,7 +13,7 @@ public:
     Camera(vec3 lookfrom, vec3 lookat, vec3 vup, Float vfov,
             Float aspect, Float aperture, Float focus_dist);
 
-    Ray get_ray(Float u, Float v);
+    Ray get_ray(Float u, Float v) const;
 
     vec3 upper_left_corner {0, 0, 0};
     vec3 horizontal  {0, 0, 0};

@@ -34,9 +34,6 @@ vec3 color(const Ray& r, const Hitable* const world, int depth) {
     }
 }
 
-
-
-
 Hitable* random_scene(Scene& scene) {
     auto s1_mat = scene.add_material<Lambertian>(vec3(0.5, 0.5, 0.5));
     auto glass = scene.add_material<Dielectric>(1.5);
@@ -50,17 +47,17 @@ Hitable* random_scene(Scene& scene) {
 
     for (int a = -11; a < 11; a++) {
         for (int b = -11; b < 11; b++) {
-            Float choose_mat = rng.get();
-            vec3 center(a+0.9* rng.get(), 0.2, b+0.9* rng.get());
+            Float choose_mat = rng::get();
+            vec3 center(a+0.9* rng::get(), 0.2, b+0.9* rng::get());
             if ((center-vec3(4,0.2, 0)).len() > 0.9) {
                 if (choose_mat < 0.8) {
-                    auto diffuse = scene.add_material<Lambertian>(vec3(rng.get()* rng.get(),
-                                                                       rng.get()* rng.get(), rng.get()* rng.get()));
+                    auto diffuse = scene.add_material<Lambertian>(vec3(rng::get()* rng::get(),
+                                                                       rng::get()* rng::get(), rng::get()* rng::get()));
                     scene.add_hitable<Sphere>(center, 0.2, diffuse);
                 }
                 else if(choose_mat < 0.95) {
-                    auto metal = scene.add_material<Metal>(vec3(0.5*(1 + rng.get()),
-                            0.5*(1 + rng.get()), 0.5*(1 + rng.get())), 0.5* rng.get());
+                    auto metal = scene.add_material<Metal>(vec3(0.5*(1 + rng::get()),
+                            0.5*(1 + rng::get()), 0.5*(1 + rng::get())), 0.5* rng::get());
                     scene.add_hitable<Sphere>(center, 0.2, metal);
                 }
                 else {
@@ -89,6 +86,28 @@ Hitable* example_world(Scene& sc) {
     return sc.make_hitable_list();
 }
 
+
+void render(Hitable* world, const Camera& cam, int num_samples, Image& im) {
+    int width = im.get_width();
+    int height = im.get_height();
+    for (int j = 0; j < height; j++) {
+        for (int i = 0; i < width; i++) {
+            vec3 col = {0, 0, 0};
+            for (int s = 0; s < num_samples; s++) {
+                Float u_random_bias = rng::get();
+                Float v_random_bias = rng::get();
+                const Float u = (i + u_random_bias) / Float(width);
+                const Float v = (j + v_random_bias) / Float(height);
+                Ray r = cam.get_ray(u, -v);
+                col += color(r, world, 0);
+            }
+            col /= Float(num_samples);
+            col = vec3(sqrt(col.x), sqrt(col.y), sqrt(col.z));
+            im.set_pixel_at(i, j, col);
+        }
+    }
+}
+
 int main() {
     constexpr int factor = 1;
     constexpr int width = factor * 100;
@@ -102,22 +121,7 @@ int main() {
     Float focal_length = 10.0;
     Float aperture = 0.1;
     Camera cam(lookfrom, lookat, vec3(0,1,0), 20, Float(width)/Float(height), aperture, focal_length);
-    for (int j = 0; j < height; j++) {
-        for (int i = 0; i < width; i++) {
-            vec3 col = {0, 0, 0};
-            for (int s=0; s < num_samples; s++) {
-                Float u_random_bias = rng.get();
-                Float v_random_bias = rng.get();
-                const Float u = (i + u_random_bias) / Float(width);
-                const Float v = (j + v_random_bias) / Float(height);
-                Ray r = cam.get_ray(u, -v);
-                col += color(r, world, 0);
-            }
-            col /= Float(num_samples);
-            col = vec3(sqrt(col.x), sqrt(col.y), sqrt(col.z));
-            im.set_pixel_at(i, j, col);
-        }
-    }
+    render(world, cam, num_samples, im);
     im.to_ppm("test.ppm");
     return 0;
 }

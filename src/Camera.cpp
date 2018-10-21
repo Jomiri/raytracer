@@ -24,8 +24,8 @@ Camera::Camera(vec3 lookfrom, vec3 lookat, vec3 vup,
     vertical = 2*half_height*v * focal_length;
 }
 
-Ray Camera::get_ray(Float s, Float t) {
-    vec3 rd = lens_radius*rng.random_in_unit_disk();
+Ray Camera::get_ray(Float s, Float t) const {
+    vec3 rd = lens_radius*rng::random_in_unit_disk();
     vec3 offset = u * rd.x + v * rd.y;
     return {origin + offset, upper_left_corner + s * horizontal + t * vertical - origin - offset};
 }
