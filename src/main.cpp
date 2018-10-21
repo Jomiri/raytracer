@@ -1,3 +1,5 @@
+#include <thread>
+#include <future>
 
 #include "raytracer/common.h"
 #include "raytracer/Image.h"
@@ -87,12 +89,12 @@ Hitable* example_world(Scene& sc) {
 }
 
 
-void render(Hitable* world, const Camera& cam, int num_samples, Image& im) {
+void render(const Hitable *const world, const Camera& cam, const int num_samples, Image& im) {
     int width = im.get_width();
     int height = im.get_height();
     for (int j = 0; j < height; j++) {
         for (int i = 0; i < width; i++) {
-            vec3 col = {0, 0, 0};
+            vec3 col {0, 0, 0};
             for (int s = 0; s < num_samples; s++) {
                 Float u_random_bias = rng::get();
                 Float v_random_bias = rng::get();
@@ -102,17 +104,60 @@ void render(Hitable* world, const Camera& cam, int num_samples, Image& im) {
                 col += color(r, world, 0);
             }
             col /= Float(num_samples);
-            col = vec3(sqrt(col.x), sqrt(col.y), sqrt(col.z));
             im.set_pixel_at(i, j, col);
         }
+        if ((j+1)%10 == 0)
+            std::cout << "Finished row: " << j+1 << std::endl;
     }
 }
 
+void combine_images(std::vector<Image>& ims, Image& out) {
+    int n_images = ims.size();
+    int width = out.get_width();
+    int height = out.get_height();
+    for (int j = 0; j < height; j++) {
+        for (int i = 0; i < width; i++) {
+            vec3 col {0, 0, 0};
+            for (int k = 0; k < n_images; k++) {
+               col += ims[k].get_pixel_at(i, j);
+            }
+            col /= Float(n_images);
+            out.set_pixel_at(i, j, col);
+        }
+    }
+
+}
+
+void async_render(const Hitable *const world, const Camera& cam, const int num_samples, Image& out) {
+    int num_thread = std::thread::hardware_concurrency();
+    std::vector<Image> ims;
+    ims.reserve(num_thread);
+    std::vector<std::future<void>> futures;
+    int samples_per_thread = num_samples / num_thread;
+    for (int i = 0; i < num_thread; i++) {
+        ims.emplace_back(out.get_width(), out.get_height());
+        futures.push_back(std::async(std::launch::async, render, world, cam,
+                samples_per_thread, std::ref(ims.at(i))));
+    }
+
+    try {
+
+        for (auto &f : futures) {
+            f.get();
+        }
+    } catch (std::exception &e) {
+        std::cerr << e.what();
+
+    }
+
+    combine_images(ims, out);
+}
+
 int main() {
-    constexpr int factor = 1;
+    constexpr int factor = 10;
     constexpr int width = factor * 100;
     constexpr int height = factor * 50;
-    constexpr int num_samples = 100;
+    constexpr int num_samples = 120;
     Image im {width, height};
     Scene scene;
     auto world = random_scene(scene);
@@ -121,7 +166,8 @@ int main() {
     Float focal_length = 10.0;
     Float aperture = 0.1;
     Camera cam(lookfrom, lookat, vec3(0,1,0), 20, Float(width)/Float(height), aperture, focal_length);
-    render(world, cam, num_samples, im);
+    async_render(world, cam, num_samples, im);
+    im.gamma_correct();
     im.to_ppm("test.ppm");
     return 0;
 }

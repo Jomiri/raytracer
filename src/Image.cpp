@@ -25,6 +25,10 @@ void Image::set_pixel_at(int x, int y, vec3 pixel) {
     pixels.at(x + y*width) = pixel;
 }
 
+vec3 Image::get_pixel_at(int x, int y) const {
+    return pixels.at(x + y*width);
+}
+
 void Image::to_ppm(const std::string &file_name) const {
     std::ofstream os {file_name};
     os << "P3" << std::endl;
@@ -37,5 +41,10 @@ void Image::to_ppm(const std::string &file_name) const {
         int ib = int(255.99 * p.z);
         os << ir << " " << ig << " " << ib << std::endl;
     }
+}
 
+void Image::gamma_correct() {
+    for (auto& px : pixels) {
+        px = vec3(sqrt(px.x), sqrt(px.y), sqrt(px.z));
+    }
 }
