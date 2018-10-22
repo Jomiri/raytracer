@@ -10,10 +10,10 @@
 
 Camera::Camera(const vec3 lookfrom, const vec3 lookat, const vec3 vup,
         Float vfov, Float aspect, Float aperture, Float focal_length) {
-    lens_radius = aperture / 2;
     const Float theta = vfov * pi/180;
     const Float half_height = tan(theta/2);
     const Float half_width = aspect * half_height;
+    lens_radius = aperture / 2;
     origin = lookfrom;
     w = unit_vector(lookfrom - lookat);
     u = unit_vector(cross(vup, w));

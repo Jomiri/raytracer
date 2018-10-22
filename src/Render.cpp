@@ -33,7 +33,7 @@ vec3 color(const Ray& r, const Hitable* const world, int depth) {
         return ambient_color(r);
 }
 
-void render(const Hitable *const world, const Camera& cam, const int num_samples, Image& im) {
+void render(const Hitable *const world, const Camera& cam, int num_samples, Image& im) {
     const int width = im.get_width();
     const int height = im.get_height();
     for (int j = 0; j < height; j++) {
@@ -55,9 +55,11 @@ void render(const Hitable *const world, const Camera& cam, const int num_samples
     }
 }
 
-void async_render(const Hitable *const world, const Camera& cam, const int num_samples, Image& out) {
-    const int num_threads = std::thread::hardware_concurrency();
-    const int samples_per_thread = num_samples / num_threads;
+void async_render(const Hitable *const world, const Camera& cam, int num_samples, Image& out) {
+    // num_samples is treated as a suggestion
+    const int suggested_threads = std::max<int>(std::thread::hardware_concurrency(), 1);
+    const int num_threads = std::min<int>(suggested_threads, num_samples);
+    const int samples_per_thread = std::max<int>(num_samples / num_threads, 1);
     std::vector<Image> images;
     images.reserve(num_threads); //Reserve memory here to avoid reallocation in the loop
     std::vector<std::future<void>> futures;

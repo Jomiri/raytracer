@@ -10,9 +10,9 @@ vec3 reflected(const vec3 &v, const vec3 &n) {
 }
 
 bool refract(const vec3& v, const vec3& n, Float ni_per_nt, vec3& refracted) {
-    vec3 u0 = unit_vector(v);
-    Float dt = dot(u0, n);
-    Float discriminant = 1.0 - ni_per_nt * ni_per_nt * (1-dt*dt);
+    const vec3 u0 = unit_vector(v);
+    const Float dt = dot(u0, n);
+    const Float discriminant = 1.0 - ni_per_nt * ni_per_nt * (1-dt*dt);
     if (discriminant > 0) {
         refracted = ni_per_nt*(u0 - n*dt) - n*sqrt(discriminant);
         return true;
@@ -21,7 +21,7 @@ bool refract(const vec3& v, const vec3& n, Float ni_per_nt, vec3& refracted) {
 }
 
 Float schlick(Float cosine, Float ref_idx) {
-    Float r = (1-ref_idx) / (1+ref_idx);
-    Float R = r*r;
+    const Float r = (1-ref_idx) / (1+ref_idx);
+    const Float R = r*r;
     return R + (1-R)*pow(1-cosine, 5);
 }

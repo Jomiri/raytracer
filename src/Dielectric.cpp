@@ -16,7 +16,7 @@ bool Dielectric::scatter(const Ray& r_in, const HitRecord& rec, vec3& atten, Ray
         ni_per_nt = ref_idx;
     }
 
-    Float cosine {-ref_idx * dot(r_in.unit_direction(), outward_normal)};
+    const Float cosine {-ref_idx * dot(r_in.unit_direction(), outward_normal)};
     Float reflect_probability {1.0};
     vec3 refracted;
     if (refract(r_in.direction(), outward_normal, ni_per_nt, refracted))

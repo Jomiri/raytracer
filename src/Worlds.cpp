@@ -23,8 +23,8 @@ namespace Worlds {
 
         for (int a = -11; a < 11; a++) {
             for (int b = -11; b < 11; b++) {
-                Float choose_mat = rng::get();
-                vec3 center(a + 0.9 * rng::get(), 0.2, b + 0.9 * rng::get());
+                const Float choose_mat = rng::get();
+                const vec3 center(a + 0.9 * rng::get(), 0.2, b + 0.9 * rng::get());
                 if ((center - vec3(4, 0.2, 0)).len() > 0.9) {
                     if (choose_mat < 0.8) {
                         auto diffuse = sc.add_material<Lambertian>(vec3(rng::get() * rng::get(),
@@ -59,7 +59,7 @@ namespace Worlds {
         return sc.make_hitable_list();
     }
 
-    const Hitable *const animation(Scene &sc, double t) {
+    const Hitable *const animation(Scene &sc, Float t) {
         Float R = 10;
         Float r = 2;
         auto diffuse = sc.add_material<Lambertian>(vec3(0.1, 0.2, 0.5));
@@ -74,7 +74,7 @@ namespace Worlds {
         return sc.make_hitable_list();
     }
 
-    const Hitable *const atom_animation(Scene &sc, double t) {
+    const Hitable *const atom_animation(Scene &sc, Float t) {
         //auto e_mat = sc.add_material<Metal>(vec3(0.1, 0.2, 0.5), 0.1);
         //auto p_mat = sc.add_material<Metal>(vec3(1, 0.2, 0.2), 0.3);
         //auto n_mat = sc.add_material<Metal>(vec3(0.2, 0.2, 0.2), 0.3);
