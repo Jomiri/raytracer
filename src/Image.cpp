@@ -40,9 +40,9 @@ void Image::to_ppm(const std::string &file_name) const {
     os << "255" << std::endl;
 
     for (const auto& p : pixels) {
-        int ir = int(255.99 * p.x);
-        int ig = int(255.99 * p.y);
-        int ib = int(255.99 * p.z);
+        auto ir = static_cast<int>(255.99 * p.x);
+        auto ig = static_cast<int>(255.99 * p.y);
+        auto ib = static_cast<int>(255.99 * p.z);
         os << ir << " " << ig << " " << ib << std::endl;
     }
 }
@@ -70,7 +70,7 @@ void Image::gamma_correct() {
  * Inefficient, but that does not matter here.
  */
 void average_images(const std::vector<Image> &images, Image &out) {
-    const int n_images = images.size();
+    const size_t n_images = images.size();
     const int width = out.get_width();
     const int height = out.get_height();
     for (int j = 0; j < height; j++) {
